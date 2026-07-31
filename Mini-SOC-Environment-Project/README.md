@@ -46,7 +46,7 @@ This project simulates a real-world SOC environment where a **Blue Team** monito
 
 The entire environment runs locally on a single Windows 10 desktop using **VirtualBox**, with all seven VMs placed on the same **NAT network** in the `172.31.0.x` range.
 
-> 📷 <img width="822" height="793" alt="screenshot1" src="https://github.com/user-attachments/assets/f760a18c-d3c2-4a1e-a249-adcdcb239725" />
+<img width="822" height="793" alt="screenshot1" src="https://github.com/user-attachments/assets/f760a18c-d3c2-4a1e-a249-adcdcb239725" />
 
 **Machines used in this lab:**
 
