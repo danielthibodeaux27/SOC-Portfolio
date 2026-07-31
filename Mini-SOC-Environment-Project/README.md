@@ -141,7 +141,7 @@ cd /usr/share/kibana/bin
 sudo ./kibana-verification-code
 ```
 
-> 📷 *Add screenshot: Kibana login / first dashboard*
+<img width="597" height="760" alt="screenshot2" src="https://github.com/user-attachments/assets/2279e3bd-48ef-4dbb-83b7-24d83d92570b" />
 
 ---
 
