@@ -523,8 +523,8 @@ index=mydfir-ctf8 source="WinEventLog:Security" EventCode=1102 host="SRV-DC01*"
 
 ```spl
 index=mydfir-ctf8 source="WinEventLog:Security" EventCode=1102
-| stats min(_time) as cleared_at by host
-| sort +cleared_at
+| stats count by _time, host
+| sort +_time
 ```
 
 **✅ Answer:** `SRV-FILES02` — cleared at `03:33:51 UTC`, ~15 minutes **before** the DC. The attacker wiped the file server first, then the DC on the way out.
