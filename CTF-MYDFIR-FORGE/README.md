@@ -483,7 +483,7 @@ index=mydfir-ctf8 host="SRV-FILES02" process="*Compress-Archive*"
 **Why this matters:** the exfil destination **confirms data left the network** and is the single most important IOC to block and hunt historically.
 
 ```spl
-index=mydfir-ctf8 process="*Invoke-WebRequest*" process="*POST*"
+index=mydfir-ctf8 process="*POST*"
 | table _time host process
 | sort +_time
 ```
