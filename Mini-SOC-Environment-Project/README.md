@@ -1,6 +1,6 @@
 # 🛡️ Mini SOC Environment Project
 
-> A hands-on, 29-day end-to-end **Security Operations Centre (SOC)** lab built from scratch using the **Elastic Stack (ELK)**, **Elastic Agent**, **Sysmon**, **Mythic C2**, and **osTicket**. This project documents every step — from provisioning infrastructure across seven virtual machines, to ingesting telemetry, building detections and dashboards, executing a full red-team attack chain, and investigating the resulting incidents end-to-end.
+> A hands-on, 30-day end-to-end **Security Operations Centre (SOC)** lab built from scratch using the **Elastic Stack (ELK)**, **Elastic Agent**, **Sysmon**, **Mythic C2**, and **osTicket**. This project documents every step — from provisioning infrastructure across seven virtual machines, to ingesting telemetry, building detections and dashboards, executing a full red-team attack chain, and investigating the resulting incidents end-to-end.
 
 ---
 
