@@ -52,7 +52,9 @@ The goal of this project was to build a working SOC pipeline from nothing — pr
 
 The lab runs entirely on-premise across three servers and one Windows endpoint. Sysmon telemetry flows from the endpoint into Wazuh; a rule match is pushed to Shuffle via webhook, which enriches, creates a case in TheHive, and notifies the analyst.
 
-![Architecture diagram](images/01-architecture.png)
+<!-- ▼▼▼ DRAG IMAGE 01 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 01 HERE — Architecture diagram · file: 01-architecture.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 &nbsp;
 
@@ -86,11 +88,15 @@ curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh && sudo bash ./wazuh-in
 
 Browsing to the Wazuh server IP over HTTPS confirms the stack is up:
 
-![Wazuh dashboard](images/02-wazuh-dashboard.png)
+<!-- ▼▼▼ DRAG IMAGE 02 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 02 HERE — Wazuh dashboard · file: 02-wazuh-dashboard.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 TheHive relies on **Cassandra** (NoSQL store) and **Elasticsearch**, so it was allocated significantly more RAM. After installing the Java VM, Cassandra, Elasticsearch, and TheHive package, the login screen confirms a healthy install:
 
-![TheHive login](images/03-thehive-login.png)
+<!-- ▼▼▼ DRAG IMAGE 03 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 03 HERE — TheHive login · file: 03-thehive-login.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -118,7 +124,9 @@ Ownership of `/opt/thp` was reassigned from `root` to the `thehive` user so the 
 
 The Wazuh agent was deployed to the Windows 11 host (**Deploy new agent → Windows → server address → name**), then confirmed as active in the manager:
 
-![Wazuh agent active](images/04-wazuh-agent-active.png)
+<!-- ▼▼▼ DRAG IMAGE 04 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 04 HERE — Wazuh agent active · file: 04-wazuh-agent-active.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 To forward Sysmon data, the agent's `ossec.conf` was edited to replace the default Application/Security channels with the Sysmon operational channel:
 
@@ -131,7 +139,9 @@ To forward Sysmon data, the agent's `ossec.conf` was edited to replace the defau
 
 After restarting the agent, Sysmon telemetry appears in Wazuh's Discover view:
 
-![Sysmon telemetry in Wazuh](images/05-sysmon-telemetry.png)
+<!-- ▼▼▼ DRAG IMAGE 05 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 05 HERE — Sysmon telemetry in Wazuh · file: 05-sysmon-telemetry.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -141,15 +151,21 @@ To capture *everything* for rule development, `logall` and `logall_json` were en
 
 With Defender disabled and the C: drive excluded from scanning (so the binary would persist), **Mimikatz** was executed from PowerShell to generate telemetry. A custom rule was then added to `local_rules.xml`, built from the base Sysmon Event ID 1 (Process Create) rule:
 
-![Custom rule in local_rules.xml](images/06-custom-rule.png)
+<!-- ▼▼▼ DRAG IMAGE 06 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 06 HERE — Custom rule in local_rules.xml · file: 06-custom-rule.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 The rule keys on the process's `originalFileName` (case-insensitive regex) rather than the on-disk filename — so renaming `mimikatz.exe` to something innocuous won't evade it. After restarting the manager and re-running Mimikatz, the rule fires:
 
-![Mimikatz alert triggered](images/07-mimikatz-alert.png)
+<!-- ▼▼▼ DRAG IMAGE 07 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 07 HERE — Mimikatz alert triggered · file: 07-mimikatz-alert.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 Opening the event confirms everything specified in the rule — `rule.id 100002`, level 15, description, and **MITRE T1003 (Credential Access / OS Credential Dumping)**:
 
-![Alert details](images/08-alert-details.png)
+<!-- ▼▼▼ DRAG IMAGE 08 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 08 HERE — Alert details · file: 08-alert-details.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -166,11 +182,15 @@ A Shuffle workflow was created and a **Webhook** node dragged in to receive aler
 </integration>
 ```
 
-![Shuffle webhook node](images/09-shuffle-webhook.png)
+<!-- ▼▼▼ DRAG IMAGE 09 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 09 HERE — Shuffle webhook node · file: 09-shuffle-webhook.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 After restarting Wazuh and starting the webhook, re-running Mimikatz sends the alert straight into Shuffle. **Explore runs** shows it arriving with the full event payload:
 
-![Shuffle Explore runs](images/10-shuffle-explore-runs.png)
+<!-- ▼▼▼ DRAG IMAGE 10 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 10 HERE — Shuffle Explore runs · file: 10-shuffle-explore-runs.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -180,7 +200,9 @@ A **regex capture** (Shuffle Tools) extracts the SHA256 hash from `$exec.all_fie
 
 The first run returned a **404** — VirusTotal was being handed the whole hash object instead of just the value. Fixing the `Id` field to reference `.list.group_0` (the hash alone) produced a **200**, and VirusTotal returned the full verdict — Mimikatz classified as malicious across multiple sandboxes:
 
-![VirusTotal malware verdict](images/11-virustotal-malware.png)
+<!-- ▼▼▼ DRAG IMAGE 11 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 11 HERE — VirusTotal malware verdict · file: 11-virustotal-malware.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -195,11 +217,15 @@ Two real-world issues surfaced and were resolved:
 
 The workflow then returned a **201 Created**:
 
-![TheHive 201 success](images/12-thehive-201.png)
+<!-- ▼▼▼ DRAG IMAGE 12 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 12 HERE — TheHive 201 success · file: 12-thehive-201.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 Logging in as the analyst, the automatically-created alert is waiting in the queue — Mimikatz, T1003, severity high, host `MDFIR-PC`:
 
-![Alert in TheHive](images/13-thehive-alert.png)
+<!-- ▼▼▼ DRAG IMAGE 13 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 13 HERE — Alert in TheHive · file: 13-thehive-alert.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 ---
 
@@ -207,7 +233,9 @@ Logging in as the analyst, the automatically-created alert is waiting in the que
 
 Finally, an **email** node was attached to the workflow so the analyst is notified the moment a case is created. End-to-end proof of concept — the alert lands in the inbox automatically:
 
-![Email received](images/14-email-received.png)
+<!-- ▼▼▼ DRAG IMAGE 14 HERE ▼▼▼ -->
+**🖼️ [ DRAG IMAGE 14 HERE — Email received · file: 14-email-received.png ]**
+<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
 
 At this point the pipeline is fully automated: **Mimikatz executes → Wazuh detects → Shuffle enriches via VirusTotal → TheHive opens a case → analyst is emailed**, with no manual intervention.
 
