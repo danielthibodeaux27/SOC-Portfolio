@@ -441,7 +441,9 @@ A key takeaway: commands issued **inside** an existing C2 session (e.g. `netstat
 
 To prove isolation, a continuous `ping 8.8.8.8` was started on the victim; the moment the payload was re-downloaded, Elastic deleted the file **and isolated the host from the network** — the ping loop dropped, confirming automated containment.
 
-> 📷 *Add screenshot: host auto-isolated by Elastic EDR*
+<img width="1175" height="651" alt="image" src="https://github.com/user-attachments/assets/6b9bc5cc-7d45-4781-bd5d-cb3a405ac235" />
+<img width="317" height="509" alt="image" src="https://github.com/user-attachments/assets/4de2c4cf-3cd9-4dbf-a073-5ccb4cc3f3c7" />
+
 
 ---
 
