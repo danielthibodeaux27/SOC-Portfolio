@@ -280,7 +280,7 @@ event.code: 4624 and (winlog.event_data.LogonType: 10 or winlog.event_data.Logon
 
 Tables of `user.name`, count, and `source.ip` were placed beside the maps for readability.
 
-> 📷 *Add screenshot: consolidated SSH/RDP authentication dashboard*
+<img width="2048" height="945" alt="image" src="https://github.com/user-attachments/assets/f2bd8494-84cf-403c-9fb1-4c392c4250b1" />
 
 ---
 
