@@ -419,11 +419,3 @@ Scheduled tasks: \Microsoft\windows\PLMcFw Host IOC: TCP 65533 portproxy → 1.1
 
 OPEN — ESCALATED.  Active compromise of a domain controller; containment and domain-wide credential reset required. Byte-level exfiltration attribution remains open pending (and dependent on) future flow-logging — it may not be recoverable for this event.
 
-13.  Reviewed By
-
-________________________________     Date: ____________
-
-SOC Lead / Supervisor
-
-Note on confidence: This report distinguishes confirmed findings (the compromise, the responsible IPs, the access timeline, and the deployed malware/tooling — the v.beahh.com C2 beacon, scheduled-task persistence, dropped binaries, and the Heart Sender spam tool, all evidenced in endpoint process telemetry) from inferred conclusions (the exact split of the 626 GB across the botnet/miner, the spam tool, and any data theft, which could not be byte-attributed because flow-level network telemetry was not enabled on the affected VM).
-
