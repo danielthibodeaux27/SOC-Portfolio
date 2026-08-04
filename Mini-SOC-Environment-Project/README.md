@@ -237,7 +237,8 @@ winlog.event_id: 1        # confirms event.provider = Microsoft-Windows-Sysmon
 winlog.event_id: 5001     # "real-time protection disabled" event
 ```
 
-> 📷 *Add screenshot: Sysmon + Defender logs landing in Elasticsearch*
+> <img width="2048" height="907" alt="image" src="https://github.com/user-attachments/assets/4e68b8f7-d520-4bf9-83f7-5c31f3a67588" />
+
 
 ---
 
