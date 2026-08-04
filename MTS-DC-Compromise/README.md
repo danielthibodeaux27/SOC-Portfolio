@@ -6,23 +6,21 @@
 
 ---
 
-## 1.  Report Title
+## 1. Report Overview
 
-Domain Controller Compromise — Cryptominer/Botnet and Spam-Tool Deployment
+| **Report Title** | Domain Controller Compromise — Cryptominer/Botnet and Spam-Tool Deployment |
+| --- | --- |
+| **Date of Report** | 2026-06-23 |
+| **Reported By** | MahCyberDefense SOC — Daniel Thibodeaux |
+| **Severity Level** | CRITICAL |
+| **Affected Organization** | Maple Tax Solutions (MTS) |
+| **Affected Host** | MTS-DC — internal IP 192.168.10.8 (Active Directory DC, file server, and RDP host; intentionally internet-exposed) |
+| **Incident Period** | 2026-05-30 (brute force) → 2026-06-16 (egress); active exploitation from 2026-06-11 |
+| **Report Status** | Escalated to Incident Response |
 
-## 2.  Date of Report
+**Severity rationale:** CRITICAL — confirmed external compromise of a domain controller holding Active Directory, file-share, and RDP roles, with persistent administrator-level access, SYSTEM-level cryptominer/botnet malware (C2 `v[.]beahh[.]com`), and an attacker-run spam/phishing distribution tool.
 
-2026-06-23
-
-## 3.  Reported By
-
-Daniel Thibodeaux, MahCyberDefense SOC.
-
-## 4.  Severity Level
-
-**CRITICAL **— Confirmed external compromise of a domain controller holding Active Directory, file-share, and RDP roles, with persistent administrator-level access, SYSTEM-level cryptominer/botnet malware (C2 v[.]beahh[.]com), an attacker-run spam/phishing distribution tool.
-
-## 5.  Summary of Findings
+## 2. Summary of Findings
 
 The client reported a sharp spike in Azure cost driven by network bandwidth on a virtual machine shown in the portal as “Temp-MTS-DC.” Azure Monitor metrics confirmed approximately 626.8 GB of outbound (egress) data and ~1 GB inbound from this VM beginning Jun 14, 2026 at roughly 21:15 UTC and tapering off through Jun 16.
 
@@ -34,7 +32,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 
 **In short: the compromise, the responsible IP, the access timeline, and the deployed malware are all confirmed. The precise breakdown of the 626 GB across specific channels cannot be determined due to a telemetry gap — however, the egress is consistent with, and best explained by, the DC operating as an actively compromised, malware-infected crypto-bot host under attacker control throughout the window.**
 
-## 6.  Investigation Timeline
+## 3. Investigation Timeline
 
 *Event timeline (attacker activity and analyst actions; all times UTC):*
 
@@ -48,7 +46,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 | **2026-06-15 12:28** | **MTS-DC** | Successful administrator logon from 212.205.155.60; guest account logon observed shortly after admin successes. |
 | **2026-06-15 22:01–22:12** | **MTS-DC** | Interactive RDP session as administrator (explorer, ServerManager, msedge); attacker runs Heart-Sender-V1.2.exe (spam/phishing mailer) from C:\Users\administrator\Downloads\. |
 
-## 7.  Who, What, When, Where, Why, How
+## 4. Who, What, When, Where, Why, How
 
 | **Who** | External threat actor operating primarily from 212.205.155.60 (achieved access), with brute-force support. Compromised account: local administrator (mts\administrator) on the domain controller. |
 | --- | --- |
@@ -58,7 +56,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 | **Why** | Monetization of a compromised host: cryptomining/botnet resource hijacking and spam/phishing distribution, with probable data theft given the large egress and the DC’s file-server role. Mining/spam intent is confirmed by the deployed tooling; data-theft intent is inferred from the egress volume. |
 | **How** | Initial access: brute force of RDP / network logon against the public-facing DC until valid administrator credentials succeeded. Persistence: dropper (tmp.vbs) writing PLMcFw.exe / ireidJ.exe to C:\Windows\ and several SYSTEM scheduled tasks; recurring PowerShell beacon to hxxp://v[.]beahh[.]com via base64-encoded IEX downloadstring; TCP 65533 opened via netsh firewall + portproxy. Hands-on activity: interactive RDP as administrator running Heart-Sender-V1.2.exe (spam/phishing mailer). Egress: ~626.8 GB left the VM during the access window, consistent with the combined activity of the botnet/miner and mailer plus possible data theft. The exact byte split across channels is unproven due to missing flow telemetry. |
 
-## 8.  MITRE ATT&CK Techniques
+## 5. MITRE ATT&CK Techniques
 
 | **Tactic** | **Technique (ID)** | **Observation in this incident** |
 | --- | --- | --- |
@@ -74,7 +72,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 | Collection / Exfiltration | T1041 / T1048 Exfiltration (channel unconfirmed) | ~626.8 GB outbound during the access window; byte-level attribution not captured. |
 | Initial Access (Heart Sender) | T1566 — Phishing (outbound distribution) | Heart-Sender-V1.2.exe spam/phishing mailer run interactively as administrator. |
 
-## 9.  Impact Assessment
+## 6. Impact Assessment
 
 - The MTS Domain controller was under confirmed external administrator control for multiple days and was actively running cryptominer/botnet malware (C2 v[.]beahh[.]com) and an attacker-operated spam/phishing mailer. This should be treated as a full AD/domain compromise until proven otherwise.
 
@@ -84,7 +82,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 
 - Compromise, responsible IP, access timeline, and the deployed malware/tooling (C2 beacon, persistence tasks, dropped binaries, Heart Sender) are CONFIRMED. The exact split of the 626 GB across the botnet/miner, the mailer, and any data theft is UNPROVEN due to the absence of flow-level network telemetry on the DC.
 
-## 10.  Recommendations / Next Steps
+## 7. Recommendations / Next Steps
 
 **Immediate containment:**
 
@@ -108,7 +106,7 @@ This malware and tooling, active across Jun 13–16, provides a confirmed malici
 
 - Enable Network Security Group Flow Logs + Traffic Analytics on all internet-facing assets. The 626 GB destination was unrecoverable specifically because this telemetry did not exist. Closing this gap is the single highest-value preventative action moving forward.
 
-## 11. Attachments / Evidence
+## 8. Attachments / Evidence
 
 ### A. Initial access — RDP/network-logon brute force
 
