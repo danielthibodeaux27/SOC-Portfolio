@@ -378,7 +378,7 @@ and not (winlog.event_data.Image: *MsMpEng.exe or winlog.event_data.Image: *MpDe
 event.code: 5001 and event.provider: Microsoft-Windows-Windows Defender
 ```
 
-> 📷 *Add screenshot: Suspicious Activity dashboard (3 panels)*
+<img width="2048" height="972" alt="image" src="https://github.com/user-attachments/assets/3f19c7c8-ca7c-40e3-aefa-5d02ecaecf96" />
 
 ---
 
