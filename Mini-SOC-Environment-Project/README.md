@@ -141,7 +141,7 @@ cd /usr/share/kibana/bin
 sudo ./kibana-verification-code
 ```
 
-<img width="597" height="760" alt="screenshot2" src="https://github.com/user-attachments/assets/2279e3bd-48ef-4dbb-83b7-24d83d92570b" />
+<img width="463" height="586" alt="image" src="https://github.com/user-attachments/assets/0d44ccab-d7f3-42c0-ba18-aed14a8dfdd6" />
 
 ---
 
