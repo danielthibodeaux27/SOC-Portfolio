@@ -304,8 +304,6 @@ cat .env                # retrieve the generated admin credentials
 ./mythic-cli install github https://github.com/MythicAgents/Apollo.git
 ```
 
-> 📷 *Add screenshot: attack diagram (Day 19) mapping the 6-phase plan*
-
 ### 6.2 Full Attack Chain *(Day 21)*
 
 A six-phase attack was executed end-to-end against the Windows Server:
@@ -353,6 +351,10 @@ netstat -anob        # confirm the outbound connection + owning PID
 ```text
 download C:\Users\Administrator\Documents\passwords.txt
 ```
+
+<img width="850" height="560" alt="desktop test" src="https://github.com/user-attachments/assets/c8694a86-9d0a-4ee0-8ed2-8efac7734444" />
+<img width="850" height="560" alt="desktop2" src="https://github.com/user-attachments/assets/879e02cd-0d3f-46f2-925f-c9139ef09039" />
+
 
 ### 6.3 C2 Detection Alert & Dashboards *(Day 22)*
 
