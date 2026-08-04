@@ -52,9 +52,7 @@ The goal of this project was to build a working SOC pipeline from nothing — pr
 
 The lab runs entirely on-premise across three servers and one Windows endpoint. Sysmon telemetry flows from the endpoint into Wazuh; a rule match is pushed to Shuffle via webhook, which enriches, creates a case in TheHive, and notifies the analyst.
 
-<!-- ▼▼▼ DRAG IMAGE 01 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 01 HERE — Architecture diagram · file: 01-architecture.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="1060" height="1233" alt="image" src="https://github.com/user-attachments/assets/6a4aaf2c-6ab5-4451-bab2-a3cb8c276a6d" />
 
 &nbsp;
 
@@ -88,15 +86,12 @@ curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh && sudo bash ./wazuh-in
 
 Browsing to the Wazuh server IP over HTTPS confirms the stack is up:
 
-<!-- ▼▼▼ DRAG IMAGE 02 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 02 HERE — Wazuh dashboard · file: 02-wazuh-dashboard.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="1056" alt="image" src="https://github.com/user-attachments/assets/e084d672-a0e7-4bd1-a174-cb5e3c79cdba" />
 
 TheHive relies on **Cassandra** (NoSQL store) and **Elasticsearch**, so it was allocated significantly more RAM. After installing the Java VM, Cassandra, Elasticsearch, and TheHive package, the login screen confirms a healthy install:
 
-<!-- ▼▼▼ DRAG IMAGE 03 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 03 HERE — TheHive login · file: 03-thehive-login.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="737" alt="image" src="https://github.com/user-attachments/assets/5471b9e8-299d-42b4-914e-d6de7fd46dce" />
+
 
 ---
 
@@ -124,9 +119,7 @@ Ownership of `/opt/thp` was reassigned from `root` to the `thehive` user so the 
 
 The Wazuh agent was deployed to the Windows 11 host (**Deploy new agent → Windows → server address → name**), then confirmed as active in the manager:
 
-<!-- ▼▼▼ DRAG IMAGE 04 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 04 HERE — Wazuh agent active · file: 04-wazuh-agent-active.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="1240" height="371" alt="image" src="https://github.com/user-attachments/assets/7de0880d-32c7-4853-90db-828d4edb80c7" />
 
 To forward Sysmon data, the agent's `ossec.conf` was edited to replace the default Application/Security channels with the Sysmon operational channel:
 
@@ -139,9 +132,7 @@ To forward Sysmon data, the agent's `ossec.conf` was edited to replace the defau
 
 After restarting the agent, Sysmon telemetry appears in Wazuh's Discover view:
 
-<!-- ▼▼▼ DRAG IMAGE 05 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 05 HERE — Sysmon telemetry in Wazuh · file: 05-sysmon-telemetry.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="868" alt="image" src="https://github.com/user-attachments/assets/fd934245-d83e-4cb7-85cd-db55a0a527cf" />
 
 ---
 
@@ -151,21 +142,15 @@ To capture *everything* for rule development, `logall` and `logall_json` were en
 
 With Defender disabled and the C: drive excluded from scanning (so the binary would persist), **Mimikatz** was executed from PowerShell to generate telemetry. A custom rule was then added to `local_rules.xml`, built from the base Sysmon Event ID 1 (Process Create) rule:
 
-<!-- ▼▼▼ DRAG IMAGE 06 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 06 HERE — Custom rule in local_rules.xml · file: 06-custom-rule.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="1095" alt="image" src="https://github.com/user-attachments/assets/81c3e931-e04c-4d50-8cce-2df3ef559342" />
 
 The rule keys on the process's `originalFileName` (case-insensitive regex) rather than the on-disk filename — so renaming `mimikatz.exe` to something innocuous won't evade it. After restarting the manager and re-running Mimikatz, the rule fires:
 
-<!-- ▼▼▼ DRAG IMAGE 07 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 07 HERE — Mimikatz alert triggered · file: 07-mimikatz-alert.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="669" alt="image" src="https://github.com/user-attachments/assets/c24a0293-8eb6-4f40-8a22-f8166166c5ec" />
 
 Opening the event confirms everything specified in the rule — `rule.id 100002`, level 15, description, and **MITRE T1003 (Credential Access / OS Credential Dumping)**:
 
-<!-- ▼▼▼ DRAG IMAGE 08 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 08 HERE — Alert details · file: 08-alert-details.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="1511" height="697" alt="image" src="https://github.com/user-attachments/assets/c349f75f-19a2-4642-9483-d13e47916dd4" />
 
 ---
 
@@ -182,15 +167,11 @@ A Shuffle workflow was created and a **Webhook** node dragged in to receive aler
 </integration>
 ```
 
-<!-- ▼▼▼ DRAG IMAGE 09 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 09 HERE — Shuffle webhook node · file: 09-shuffle-webhook.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="928" alt="image" src="https://github.com/user-attachments/assets/d8f8ca33-6115-44a1-9edf-610cd3356ecd" />
 
 After restarting Wazuh and starting the webhook, re-running Mimikatz sends the alert straight into Shuffle. **Explore runs** shows it arriving with the full event payload:
 
-<!-- ▼▼▼ DRAG IMAGE 10 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 10 HERE — Shuffle Explore runs · file: 10-shuffle-explore-runs.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="2048" height="801" alt="image" src="https://github.com/user-attachments/assets/f26a4951-9e28-4b3a-ad6c-384d6f698b61" />
 
 ---
 
@@ -200,9 +181,7 @@ A **regex capture** (Shuffle Tools) extracts the SHA256 hash from `$exec.all_fie
 
 The first run returned a **404** — VirusTotal was being handed the whole hash object instead of just the value. Fixing the `Id` field to reference `.list.group_0` (the hash alone) produced a **200**, and VirusTotal returned the full verdict — Mimikatz classified as malicious across multiple sandboxes:
 
-<!-- ▼▼▼ DRAG IMAGE 11 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 11 HERE — VirusTotal malware verdict · file: 11-virustotal-malware.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="485" height="1590" alt="image" src="https://github.com/user-attachments/assets/cda374b4-6bd4-4f4f-a95c-0e85d05712a6" />
 
 ---
 
@@ -217,15 +196,11 @@ Two real-world issues surfaced and were resolved:
 
 The workflow then returned a **201 Created**:
 
-<!-- ▼▼▼ DRAG IMAGE 12 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 12 HERE — TheHive 201 success · file: 12-thehive-201.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="697" height="595" alt="image" src="https://github.com/user-attachments/assets/c90a1b37-ac31-4bfe-80a7-678c883cfa8f" />
 
 Logging in as the analyst, the automatically-created alert is waiting in the queue — Mimikatz, T1003, severity high, host `MDFIR-PC`:
 
-<!-- ▼▼▼ DRAG IMAGE 13 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 13 HERE — Alert in TheHive · file: 13-thehive-alert.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="1265" height="1378" alt="image" src="https://github.com/user-attachments/assets/114f3553-3464-4fe9-bcc3-54e846b8908a" />
 
 ---
 
@@ -233,9 +208,7 @@ Logging in as the analyst, the automatically-created alert is waiting in the que
 
 Finally, an **email** node was attached to the workflow so the analyst is notified the moment a case is created. End-to-end proof of concept — the alert lands in the inbox automatically:
 
-<!-- ▼▼▼ DRAG IMAGE 14 HERE ▼▼▼ -->
-**🖼️ [ DRAG IMAGE 14 HERE — Email received · file: 14-email-received.png ]**
-<!-- ▲▲▲ delete these 3 marker lines after the image appears ▲▲▲ -->
+<img width="952" height="314" alt="image" src="https://github.com/user-attachments/assets/24a5072d-9bdd-40ff-8717-f1bcb9960714" />
 
 At this point the pipeline is fully automated: **Mimikatz executes → Wazuh detects → Shuffle enriches via VirusTotal → TheHive opens a case → analyst is emailed**, with no manual intervention.
 
