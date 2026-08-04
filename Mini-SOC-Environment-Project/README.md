@@ -427,7 +427,6 @@ Working from the **Suspicious Activity** dashboards, an odd `svchost-mydfir.exe`
 
 A key takeaway: commands issued **inside** an existing C2 session (e.g. `netstat`) appear only in **network** telemetry (and encrypted), whereas actions that spawn new processes (`shell ipconfig` → `cmd.exe`) surface in **endpoint** telemetry — underscoring the need to monitor both.
 
-> 📷 *Add screenshot: reconstructed C2 attack timeline*
 
 ---
 
