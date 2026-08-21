@@ -8,7 +8,6 @@
 ![Docker](https://img.shields.io/badge/Runtime-Docker%20Swarm-2496ED)
 ![Ubuntu](https://img.shields.io/badge/OS-Ubuntu%2024.04-E95420)
 ![Windows Server](https://img.shields.io/badge/OS-Windows%20Server%202022-0078D6)
-![License](https://img.shields.io/badge/license-MIT-green)
 
 ---
 
@@ -674,9 +673,3 @@ This lab runs on an isolated network with deliberate simplifications. Before ada
 Adapted from **MyDFIR's Active Directory Project 2.0** (instructor: Steven) — an excellent cloud-based build worth doing in its original form. This repository documents the on-premises adaptation: what changed, what broke, and why.
 
 The community **Active Directory** app for Shuffle is contributed by `@d4rkw0lv3s` at [Shuffle/python-apps](https://github.com/Shuffle/python-apps).
-
----
-
-## License
-
-MIT
