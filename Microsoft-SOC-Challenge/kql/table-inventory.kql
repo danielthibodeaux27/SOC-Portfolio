@@ -1,0 +1,17 @@
+// Workspace table inventory
+//
+// What it looks for: every table in the workspace with at least one row,
+// ranked by event count.
+//
+// Why it matters: your investigation is only as good as your visibility. Before
+// writing a detection, you need to know which tables actually hold data, not
+// which ones the portal says exist. A table that looks connected but has zero
+// rows produces a rule that never fires and a query that returns nothing —
+// which reads as "no findings" rather than "no data."
+//
+// What a hit means: run this first in any unfamiliar workspace. Empty tables
+// are a data-collection problem to raise, not a query to keep rewriting.
+
+union withsource=TableName *
+| summarize Events = count() by TableName
+| sort by Events desc

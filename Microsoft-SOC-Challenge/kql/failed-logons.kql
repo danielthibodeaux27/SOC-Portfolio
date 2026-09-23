@@ -1,0 +1,19 @@
+// Failed logon summary
+//
+// What it looks for: Windows Event ID 4625 ("an account failed to log on"),
+// counted per account-and-host pair.
+//
+// Why it matters: a burst of failed logons is the classic signature of brute
+// force or password spraying. Grouping by account AND host is what separates
+// them — many failures against one account is brute force, few failures across
+// many accounts is spraying. Spraying is the one that stays under lockout
+// thresholds, so it's easy to miss if you only count per account.
+//
+// What a hit means: an account crossing four figures is not a user mistyping a
+// password. Pivot next to 4624 for the same account to check whether anything
+// eventually succeeded.
+
+SecurityEvent
+| where EventID == 4625
+| summarize FailedAttempts = count() by Account, Computer
+| sort by FailedAttempts desc
