@@ -174,7 +174,7 @@ The rule went live and generated three incidents against the accounts crossing t
 
 ---
 
-## Investigation reports
+## Investigation report
 
 | Day | Investigation | Verdict | Report |
 |---|---|---|---|
