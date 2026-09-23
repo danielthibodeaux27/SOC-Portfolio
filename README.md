@@ -16,8 +16,10 @@ IT professional transitioning into cybersecurity, with a goal of starting as a *
 ## 🛠️ Tools
 
 **SIEM:** Splunk · Microsoft Sentinel · Elastic · Wazuh
-**Endpoint:** Elastic EDR · Velociraptor
+**Endpoint:** Elastic EDR · Velociraptor · Defender for Endpoint
+**Identity & Cloud:** Microsoft Entra ID · Defender XDR · Defender for Office 365 · Azure
 **Network:** Wireshark · tcpdump · Snort
+**Query languages:** KQL · SPL
 **Automation & IR:** Shuffle SOAR · TheHive
 
 ---
@@ -36,6 +38,7 @@ IT professional transitioning into cybersecurity, with a goal of starting as a *
 | [Mini SOC Environment](./Mini-SOC-Environment-Project) | 30-day project building a live mini-SOC: ELK stack, Sysmon log ingestion, C2 server, ticketing, and Elastic EDR. | Elastic, Sysmon, ELK, Elastic EDR |
 | [SOC Automation Lab](./SOC-Automation-Lab) | Security automation with Shuffle SOAR, case management in TheHive, and incident response execution. | Shuffle SOAR, TheHive |
 | [CTF — MYDFIR Forge](./CTF-MYDFIR-FORGE) | Capture-the-flag investigation completed in the MYDFIR Forge community. | Splunk, MITRE ATT&CK |
+| [Microsoft SOC Challenge](./Microsoft-SOC-Challenge) | 30-day Microsoft-native SOC lab: Sentinel deployment, KQL hunting, a custom analytics rule, and incident documentation. | Microsoft Sentinel, Defender XDR, Entra ID, KQL |
 
 ---
 
