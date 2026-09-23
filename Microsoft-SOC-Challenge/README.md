@@ -179,7 +179,7 @@ The rule went live and generated three incidents against the accounts crossing t
 | Day | Investigation | Verdict | Report |
 |---|---|---|---|
 | 7 | Multiple failed logons — 18,163 events across 3 hosts | True positive, unsuccessful | [`reports/day07-failed-logon-alert-report.md`](reports/day07-failed-logon-alert-report.md) |
-| 8 | Bookmark promoted to manual incident in Sentinel | — | <!-- TODO --> |
+| 8 | Proactive hunt — SharePoint file access from an unusual source IP | Open, escalated to incident | [`reports/day08-hunt-sharepoint-unusual-ip.md`](reports/day08-hunt-sharepoint-unusual-ip.md) |
 
 Reports follow the structure I use for casework: **Findings → Summary → 5W1H → Recommendations → Supporting evidence**, with estimative language (*likely / probable / almost certain*) wherever the evidence supports an assessment but not a conclusion. If it can't be backed with evidence, it doesn't go in the report.
 
@@ -212,7 +212,7 @@ Reports follow the structure I use for casework: **Findings → Summary → 5W1H
 | 5 | Built the SOC Overview workbook; inventoried the available tables |
 | 6 | Connected the Defender XDR data connector; built and enabled my first custom analytics rule, which fired and created three incidents |
 | 7 | Investigated the failed-logon alert end to end and wrote the full report |
-| 8 | Promoted a bookmark to a manual incident in Sentinel |
+| 8 | Hunted `OfficeActivity_CL` with no alert to follow; found a file access from an off-baseline IP, bookmarked it and promoted it to an incident |
 | 9 | Portfolio setup — this writeup |
 
 **Problems worth recording**
