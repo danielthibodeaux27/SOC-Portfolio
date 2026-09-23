@@ -188,11 +188,17 @@ Reports follow the structure I use for casework: **Findings → Summary → 5W1H
 
 **Workbook:** `mdf-dt-wb-soc-overview-01`
 
+Baseline monitoring for the lab. Default time range 30 days.
+
 | Panel | Query basis | Visualization |
 |---|---|---|
-| Top 5 Failed Logins | `SecurityEvent` · `EventID == 4625` · by `Account` | Pie |
+| Top 5 Failed Logins | `SecurityEvent` · `EventID == 4625` · by `Account` | Donut |
+| Failed Logons by Target Host | `SecurityEvent` · `EventID == 4625` · by `Computer` | Bar + tiles |
+| Event Volume by Event ID | `SecurityEvent` · by `EventID` | Tiles |
 
-<!-- TODO: add the rest of the Day 5 panels here -->
+![Top 5 failed logins](screenshots/day05-01-workbook-failed-logins.png)
+
+![Failed logons by host and event volume](screenshots/day05-02-workbook-host-event-volume.png)
 
 **One thing worth noting about the data.** The Training Lab telemetry is bulk-ingested, not streamed, so `TimeGenerated` and `TimeCollected` both reflect ingestion time. All 18,163 failed logons carry a single timestamp, which means a "failed logons over time" chart renders one giant spike and says nothing. I built categorical panels instead.
 
