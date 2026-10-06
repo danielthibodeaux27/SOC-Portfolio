@@ -339,22 +339,6 @@ Baseline monitoring for the lab. Default time range 30 days.
 | 19 | Built an Intune attack surface reduction policy (four rules in Block), scoped it to a one-device group, and verified it on the endpoint |
 | 20 | Ran Atomic Red Team persistence tests, traced the alerts to raw telemetry, and hunted across three tables |
 
-**Problems worth recording**
-
-- **Day 2 —** Windows 11 setup died at ~54% three times. I chased two wrong theories before reading `vmware.log`, which showed the virtual disk was set to NVMe while the host drive is SATA. Fixed the controller and the install completed. Two hours lost to not reading the log first.
-- **Day 4 —** The Training Lab deployment failed in West US 2. On trial subscriptions, Azure Automation accounts can only be created in a handful of regions, and the Training Lab depends on one. Rebuilt in West US. Azure soft-delete also means deleting and retrying fails identically, so the Conflict error has to be read rather than worked around.
-- **Day 4 —** The Training Lab now ingests into the native `SecurityEvent` table with typed fields rather than a custom `_CL` table with string fields. Queries written against the old schema run fine and return nothing, which looks like an absence of findings instead of a broken query.
-- **Day 6 —** Sentinel rejects a 5-minute rule frequency against a 14-day lookback: any lookback of 2 days or more requires a frequency of at least 1 hour. The constraint makes sense once you see it — a 14-day query running every 5 minutes would re-scan the same two weeks 288 times a day.
-- **Day 12 —** My first test email went out without the link, and Safe Links rewrites at delivery, so I had to send a second one. `UrlClickEvents` was empty right after the click and filled in later because of ingestion delay.
-- **Day 13 —** I first left "Enable Intelligence for impersonation protection" unchecked. It is required for the mailbox intelligence action, and I caught it before submitting.
-- **Day 15 —** The simulation email never appeared in `EmailEvents` or Explorer, even though the user received and clicked it. Only the training assignment notifications showed up, so simulation payloads are not visible through the normal email hunting tables.
-- **Day 16 —** The hyperlink in my Gmail draft was missing from the quarantined copy. I did not determine why, so the report records no URL IOC and says so.
-- **Day 18 —** The EICAR alert was buried under a week of routine Defender maintenance telemetry in the Timeline view. I found it with search and the incident list.
-- **Day 19 —** Intune's All devices list was empty while Entra already showed the endpoint as Intune-managed. The Windows devices view listed it with OS version 0.0.0.0, and All devices caught up after a refresh and a wait. I never determined the cause. Separately, `Get-MpPreference` returned blank ASR fields in a non-elevated window; elevated, it returned all four rules.
-- **Day 20 —** The Atomic Red Team install failed on the default PowerShell execution policy ("running scripts is disabled"). A process-scoped Bypass fixed it without changing anything permanently.
-- **Day 20 —** My first hunt for the scheduled task returned zero rows because I queried `DeviceRegistryEvents`; the event lives in `DeviceEvents` as `ScheduledTaskCreated`. Later, one registry persistence test had no row in `DeviceRegistryEvents` at all but appeared as a `reg.exe` command line in `DeviceProcessEvents`. Different causes, same symptom: an empty result.
-- **Day 20 —** About three minutes after the High alert, attack disruption contained the account I ran the tests from. It did not disable the account, but it blocks its remote activity. I found it in Action Center > History and undid it after collecting evidence.
-
 ---
 
 ## Reflection
