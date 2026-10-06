@@ -263,7 +263,7 @@ Day 10 sets up the two lab users, and Days 11-15 cover Defender for Office 365: 
 
 ![Configuration analyzer after the anti-phishing policy](screenshots/day13-10-config-analyzer-antiphish.png)
 
-![BEC-style lure with Safe Links rewrite and first-contact tip](screenshots/day15-03-outlook-safelinks-url-rewrite-hover-annotated.png)
+![BEC-style lure with Safe Links rewrite and first-contact tip]
 
 ![Credential-harvest simulation report](screenshots/day15-14-sim-report-overview.png)
 
