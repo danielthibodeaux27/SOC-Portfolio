@@ -1,0 +1,18 @@
+// Day 20: Scheduled task creation on the lab endpoint
+//
+// What it looks for: ScheduledTaskCreated events. They live in DeviceEvents, not
+// DeviceRegistryEvents (my first attempt queried the wrong table and returned zero rows).
+// ATT&CK T1053.005.
+//
+// How to read it: the task details are packed into AdditionalFields as JSON (task name,
+// trigger, action, subject user). The initiating-process columns are empty on this event
+// type, so the schtasks.exe command line comes from the alert story instead.
+// InitiatingProcessLogonId can be matched against the alert's "Subject logon id".
+//
+// Result in my lab (Atomic Red Team T1053.005 test 2): one row at 4:06:41 PM.
+//   TaskName \spawn, a time trigger at 2026-10-05T20:10:00, action C:\windows\system32\cmd.exe,
+//   subject user UserA.
+DeviceEvents
+| where DeviceName =~ "mdf-dt-w11"
+| where ActionType == "ScheduledTaskCreated"
+| project Timestamp, DeviceName, ActionType, AdditionalFields, InitiatingProcessAccountName, InitiatingProcessLogonId
