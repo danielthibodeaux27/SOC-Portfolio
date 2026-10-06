@@ -1,0 +1,17 @@
+// Day 20: reg.exe commands touching RunOnce keys, found through process telemetry
+//
+// What it looks for: reg.exe launches whose command line mentions RunOnce. This catches
+// persistence written with the built-in reg.exe tool even when the registry table has no row.
+//
+// Why it matters: telemetry coverage differs by table. One of the three Run key tests left
+// no row in DeviceRegistryEvents, but its command line was recorded here.
+//
+// Result in my lab: one row.
+//   4:01:56 PM  reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend
+//               /v 1 /d "C:\Path\AtomicRedTeam.dll"
+// By its timestamp and key this is most likely test 2 (Reg Key RunOnce). It sits between the
+// two rows from registry-run-key-persistence.kql.
+DeviceProcessEvents
+| where FileName contains "reg.exe"
+| where ProcessCommandLine contains "RunOnce"
+| project Timestamp, FileName, ProcessCommandLine, AccountName
