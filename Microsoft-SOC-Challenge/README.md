@@ -1,4 +1,4 @@
-# Microsoft SOC Challenge
+# Microsoft SOC Challenge 1
 
 A 30-day project building a Microsoft-native SOC lab from scratch and working it like an analyst — Microsoft Sentinel, Defender XDR, Defender for Office 365, and Entra ID.
 
