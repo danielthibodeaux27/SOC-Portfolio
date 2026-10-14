@@ -20,6 +20,7 @@ This repository documents real triage cases worked through the MyDFIR SOC Simula
 | 01 | [Credential Stuffing — MTS-ContractorPC1 (Incident 2130)](https://github.com/danielthibodeaux27/SOC-Portfolio/blob/main/Triage%20Investigations%20Cases%20Sentinel-Splunk/Case%2001%20credential%20stuffing%20mts%202130.md) | Low | True Positive — Unsuccessful | Sentinel |
 | 02 | [Windows Run/RunOnce Registry Modification — mts-pc-1 (Incident 2139)](https://github.com/danielthibodeaux27/SOC-Portfolio/blob/main/Triage%20Investigations%20Cases%20Sentinel-Splunk/Case%2002%20run%20registry%20modified%20mts%202139.md) | Low | Benign — False Positive | Microsoft XDR |
 | 03 | [Unauthorized RDP Access via Persistent Session — KCD-Web (MYDFIR-2026-00538)](https://github.com/danielthibodeaux27/SOC-Portfolio/blob/main/Triage%20Investigations%20Cases%20Sentinel-Splunk/Case%2003%20unauthorized%20rdp%20access%20kcd%2000538.md) | Medium → High | True Positive — Malicious | Splunk |
+| 04 | [Compromised Account and Defender Tampering — mts-contractorpc1](https://github.com/danielthibodeaux27/SOC-Portfolio/blob/main/Triage%20Investigations%20Cases%20Sentinel-Splunk/Case%2004%20defender%20tampering%20rdp%20mts%20contractorpc1.md) | High | True Positive — Malicious | Microsoft XDR |
 
 ---
 
