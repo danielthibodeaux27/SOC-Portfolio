@@ -85,11 +85,9 @@ Isolate the host and cut off the account first, then close the RDP exposure that
 1. **Isolate mts-contractorpc1.** Logons from the operator's IP kept succeeding after the alert fired, so automated containment did not stop the account. Confirm isolation in the Action center.
 2. **Disable WDAGUtilityAccounts and reset the administrator credentials.** End any active RDP sessions, and check where else the administrator password is used.
 3. **Close public RDP.** Remove TCP 3389 exposure in the network security group and use Bastion, a VPN, or just-in-time access, with MFA and account lockout.
-4. **Scope the IOCs across all hosts and all time:** SHA1 `cb704d2e8df80fd3500a5b817966dc262d80ddb8`, VNLIKE247.exe, vnlike.rar, 247file2012.ps1, rclone, WDAGUtilityAccounts, 116[.]98[.]254[.]228, 103[.]9[.]204[.]151, DESKTOP-DV6MK6R. None appear on other devices in the telemetry reviewed so far.
-5. **Hunt for other lookalike or unexpected local accounts,** including the plural form WDAGUtilityAccounts.
-6. **Rebuild the host from a known-good image.** The operator ran code as SYSTEM, so cleaning is not enough. Before the rebuild, collect the Desktop files and any rclone configuration for analysis.
-7. **Restore Defender settings on any host touched.** Remove the DisableAntiSpyware and DisableAntiVirus values under the Windows Defender policy and product keys, and confirm Tamper Protection is on.
-8. **Block 116[.]98[.]254[.]228 if you do not expect any traffic from Vietnam.** This is easy for an attacker to change, but blocking is low cost.
+4. **Rebuild the host from a known-good image.** The operator ran code as SYSTEM, so cleaning is not enough. Before the rebuild, collect the Desktop files and any rclone configuration for analysis.
+5. **Restore Defender settings on any host touched.** Remove the DisableAntiSpyware and DisableAntiVirus values under the Windows Defender policy and product keys, and confirm Tamper Protection is on.
+6. **Block 116[.]98[.]254[.]228 if you do not expect any traffic from Vietnam.** This is easy for an attacker to change, but blocking is low cost.
 
 ---
 
