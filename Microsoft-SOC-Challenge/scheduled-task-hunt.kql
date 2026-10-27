@@ -1,0 +1,46 @@
+// Day 22: Hypothesis-driven hunt for scheduled task persistence (ATT&CK T1053.005)
+//
+// Hypothesis A: "If an attacker established persistence on an endpoint, a new scheduled task
+// would appear that runs a binary or script from a user-writable path."
+//
+// How the hunt runs: start broad, then narrow. Query 1 gives the whole population, query 2
+// tests the user-writable path clause, and queries 3 and 4 corroborate from two other tables.
+// Run each query separately (Advanced hunting shows only the last result in a tab).
+// Lookback: last 30 days.
+//
+// Result in my lab: hypothesis partially supported.
+//   Query 1: 87 scheduled task creations. The newest was \spawn, created by usera at 4:06:41 PM
+//            on Oct 5 (my Day 20 Atomic Red Team test). The rows below it are Windows
+//            EnterpriseMgmt (Intune enrollment) tasks created by the device account (mdf-dt-w11$).
+//   Query 2: 0 rows. \spawn runs C:\windows\system32\cmd.exe, a LOLBin, not a user-writable
+//            path. A hunt tuned only to user-writable paths would have missed my own test task.
+//   Query 3: 92 TaskCache\Tree keys, all written by svchost.exe as SYSTEM. The registry confirms
+//            the task name but cannot tell you who created the task.
+//   Query 4: 1 row. SCHTASKS /Create /SC ONCE /TN spawn /TR C:\windows\system32\cmd.exe /ST 20:10,
+//            launched by cmd.exe as usera. This is the only source that shows how the task was made.
+
+// --- Query 1: all scheduled task creations ---
+DeviceEvents
+| where ActionType == "ScheduledTaskCreated"
+| project Timestamp, DeviceName, InitiatingProcessAccountName, AdditionalFields
+| sort by Timestamp desc
+
+// --- Query 2: test the user-writable path clause ---
+DeviceEvents
+| where ActionType == "ScheduledTaskCreated"
+| where AdditionalFields has_any ("AppData", "Temp", "ProgramData")
+| project Timestamp, DeviceName, InitiatingProcessAccountName, AdditionalFields
+
+// --- Query 3: registry corroboration ---
+DeviceRegistryEvents
+| where ActionType == "RegistryKeyCreated"
+| where RegistryKey has @"TaskCache\Tree"
+| project Timestamp, DeviceName, InitiatingProcessAccountName, InitiatingProcessFileName, RegistryKey
+| sort by Timestamp desc
+
+// --- Query 4: how the task was created ---
+DeviceProcessEvents
+| where FileName =~ "schtasks.exe"
+| where ProcessCommandLine has "/create"
+| project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, ProcessCommandLine
+| sort by Timestamp desc

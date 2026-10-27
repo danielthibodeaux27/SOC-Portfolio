@@ -1,0 +1,15 @@
+// Day 27: Confirm Entra ID audit logs are reaching Microsoft Sentinel
+//
+// What it looks for: policy-category operations in AuditLogs over the last day, such as
+// Conditional Access policy changes.
+//
+// Why it matters: an attacker with admin rights can weaken a Conditional Access policy instead of
+// fighting it. Policy edits are rare and high-value, so they are worth alerting on.
+//
+// Result in my lab (Oct 10, 2026): 1 row. "Update conditional access policy", Category Policy,
+// Result success, from a policy edit I made to generate test telemetry.
+AuditLogs
+| where TimeGenerated > ago(1d)
+| where Category == "Policy"
+| project TimeGenerated, OperationName, Category, Result
+| sort by TimeGenerated desc

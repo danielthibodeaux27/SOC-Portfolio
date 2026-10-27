@@ -1,0 +1,20 @@
+// Day 22: Coverage check before hunting for inbox rule abuse (ATT&CK T1564.008)
+//
+// Hypothesis B: "If a user account was phished and accessed by an attacker, the attacker would
+// create an inbox rule that moves or deletes security or reply emails."
+//
+// What it looks for: whether CloudAppEvents has any rows at all. Inbox rule creation would show
+// up here as Exchange mailbox activity, so an empty table means the hypothesis cannot be tested,
+// not that it was disproved. Expanding a row from take 10 also shows every available field,
+// which is how I start building a real query against an unfamiliar table.
+//
+// Result in my lab: 0 rows over the last 30 days. Exchange activity was not reaching Advanced
+// Hunting, so Hypothesis B was untestable in this tenant.
+//
+// What it would take to test it: Exchange mailbox audit events flowing into CloudAppEvents
+// (Microsoft 365 app connector in Defender for Cloud Apps) or into Sentinel's OfficeActivity
+// table (Office 365 connector), then an inbox rule created in Outlook on the web by a lab user,
+// then a rerun after the ingestion delay. Defender for Cloud Apps anomaly detection for
+// suspicious inbox manipulation rules would be a stronger control than a hunting query.
+CloudAppEvents
+| take 10

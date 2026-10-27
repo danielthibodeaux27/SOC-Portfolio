@@ -1,0 +1,20 @@
+// Day 27: Confirm Entra ID sign-in logs are reaching Microsoft Sentinel
+//
+// What it looks for: the last day of interactive sign-ins in SigninLogs, one row per sign-in Id
+// (arg_max keeps the latest record for each Id), with the fields that matter in an identity
+// investigation: who, which app, from where, the result code, and the Conditional Access status.
+//
+// Why it matters: with Entra ID connected, a blocked sign-in, a failed MFA, or a sign-in from an
+// unexpected country can be queried and correlated in Sentinel next to endpoint and email data,
+// instead of being visible only in the Entra admin center.
+//
+// Result in my lab (Oct 10, 2026): 3 rows.
+//   Robert Smith   One Outlook Web  JP  ResultType 53003  Access blocked by Conditional Access  failure
+//   Richard Hale   One Outlook Web  US  ResultType 50140  "Keep me signed in" interrupt          success
+//   my admin acct  Office365 Shell  US  ResultType 0                                           notApplied
+// The 53003 row is the Day 25 block-by-country policy working, now visible from Sentinel.
+SigninLogs
+| where TimeGenerated > ago(1d)
+| summarize arg_max(TimeGenerated, *) by Id
+| project TimeGenerated, UserDisplayName, AppDisplayName, IPAddress, Location, ResultType, ResultDescription, ConditionalAccessStatus
+| sort by TimeGenerated desc
